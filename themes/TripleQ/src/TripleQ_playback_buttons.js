@@ -9,7 +9,7 @@ include(fb.ComponentPath + 'samples\\complete\\js\\helpers.js');
 var playback_buttons = new _buttons();
 var painted = false
 
-var buttonsize = 40	
+var buttonsize = 40
 var usewidth = 120
 
 var space = (usewidth - buttonsize * 4)/4
@@ -26,8 +26,23 @@ if (fb.IsPaused) {
 	playback_buttons.buttons.playpause = new _button(space + 1 * buttonsize_space, (window.Height - buttonsize)/2, buttonsize, buttonsize, {normal : img_folder + 'playback\\play.png', hover : img_folder + 'playback\\pause.png'}, (x, y, mask) => {fb.PlayOrPause()}, '');
 }
 
+
+function update_buttons() {
+	// update play/pause image based on playback state
+	if (fb.IsPaused) {
+		playback_buttons.buttons.playpause.img_normal = _img(img_folder + 'playback\\pause.png')
+		playback_buttons.buttons.playpause.img_hover = _img(img_folder + 'playback\\play.png')
+	} else {
+		playback_buttons.buttons.playpause.img_normal = _img(img_folder + 'playback\\play.png')
+		playback_buttons.buttons.playpause.img_hover = _img(img_folder + 'playback\\pause.png')
+	}
+}
+
+
+
+
 function on_paint(gr) {
-    gr.FillSolidRect(0, 0, window.Width, window.Height, RGB(37, 37, 37));		
+    gr.FillSolidRect(0, 0, window.Width, window.Height, RGB(37, 37, 37));
 
 	var buttonsize = 40
 	var usewidth = 120
@@ -63,8 +78,20 @@ function on_paint(gr) {
 		i = i + 1
 	}
 
+	// update playback button image
+	update_buttons()
 
 	playback_buttons.paint(gr);
+}
+
+function on_playback_pause(state) {
+	update_buttons()
+  playback_buttons.buttons.playpause.cs('normal')
+}
+
+function on_playback_starting(state) {
+	update_buttons()
+  playback_buttons.buttons.playpause.cs('normal')
 }
 
 
@@ -80,7 +107,7 @@ function on_mouse_move(x, y) {
 	playback_buttons.move(x, y);
 }
 
-function on_size(width, height) { 
+function on_size(width, height) {
 }
 
 

@@ -6,6 +6,8 @@ It includes several nice gadgets like:
 
 - **playlist-view** and **playlist-manager**
 
+- a lightweight **filesystem browser** that lets you browse your files by *"last modified date"*
+
 - **library- and coverflow views** that provide a nice view of your well sorted collection
   
   (and a **tree view** that show everything including the stuff in messy unsorted folders)
@@ -35,19 +37,35 @@ It includes several nice gadgets like:
 
 ## Portable:
 
-1) Install [Foobar2000](https://www.foobar2000.org/) (portable) [tested with v1.5.5]  (don't start it yet!)
+1) Install [Foobar2000](https://www.foobar2000.org/) (portable) [tested with v1.6.4] (don't start it yet!)
 2) Copy all files into the installation folder (replace existing files)
 3) Start foobar2000, open preferences (`crtl + p`) and set your music-directory in the *"Media Library"* tab
 4) Enjoy!
 
 ## Standalone:
 
-1) Install [Foobar2000](https://www.foobar2000.org/) (standard) [tested with v1.5.5]  
+1) Install [Foobar2000](https://www.foobar2000.org/) (standard) [tested with v1.6.4]  
 2) Copy all files into your foobar2000 `configuration`-folder (replace existing files)
    - it is located at `"%appdata%\foobar2000"` 
      (if it does not yet exist, start *foobar2000* and close it again)
 3) Start foobar2000, open preferences (`crtl + p`) and set your music-directory in the *"Media Library"* tab
 4) Enjoy!
+
+### ...if you know how to deal with git
+
+1. Install [Foobar2000](https://www.foobar2000.org/) (standard) [tested with v1.6.4]
+
+2. navigate to the `configuration`-folder and execute the following commands:
+   (warning, files already present in the folder will be overwritten!!)
+
+```
+git init
+git remote add origin https://github.com/raphaelquast/foobar2000_TripleQ.git
+git fetch
+git checkout -t origin/master -f
+```
+
+3. Enjoy!
 
 # General Infos
 
@@ -130,4 +148,5 @@ all the developers that created the awesome components that TripleQ is based on:
 - [TagBox](https://www.foobar2000.org/components/view/foo_tagbox)
 - [Coverflow](https://github.com/Chronial/foo_chronflow)
 - [Spider Monkey Panel](https://theqwertiest.github.io/foo_spider_monkey_panel/)
-- [Eole theme (thx for some js routines)](https://github.com/Ottodix/Eole-foobar-theme)
+- [Eole theme (thx for some ideas on .js routines)](https://github.com/Ottodix/Eole-foobar-theme)
+- [br3tt for his WSH Tree Explorer script](https://www.deviantart.com/br3tt/art/WSH-Tree-Explorer-1-7-196023730)

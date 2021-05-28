@@ -91,14 +91,14 @@ oFileSystObject = function () {
 
 // a function (adapted from https://github.com/Ottodix/Eole-foobar-theme) to set panel states
 oPanelSetting = function (name, file_prefix, default_value, min_value, max_value, int_value, update_settings_file_not_found) {
-	this.name = name;	
+	this.name = name;
 	this.file_prefix = file_prefix;
 	this.default_value = default_value;
 	this.max_value = max_value;
-	this.min_value = min_value;	
-	this.int_value = typeof int_value !== 'undefined' ? int_value : true;	
-	this.update_settings_file_not_found = typeof update_settings_file_not_found !== 'undefined' ? update_settings_file_not_found : true;	
-	this.getFileValue = function () {		
+	this.min_value = min_value;
+	this.int_value = typeof int_value !== 'undefined' ? int_value : true;
+	this.update_settings_file_not_found = typeof update_settings_file_not_found !== 'undefined' ? update_settings_file_not_found : true;
+	this.getFileValue = function () {
 		setting_file = utils.Glob(SettingsPath+""+this.file_prefix+"*");
 		if(setting_file.length>=1){
 			last_underscore = setting_file[0].lastIndexOf('_');
@@ -113,65 +113,65 @@ oPanelSetting = function (name, file_prefix, default_value, min_value, max_value
 			this.value = this.default_value;
 			g_files.CreateTextFile(SettingsPath+this.file_prefix+this.value, true).Close();
 			if(this.update_settings_file_not_found) {
-				settings_file_not_found = true;	
+				settings_file_not_found = true;
 			}
 		}
 		return this.value;
     };
-	this.getValue = function () {		
+	this.getValue = function () {
 		return this.value;
-	}	
+	}
 	this.getNumberOfState = function () {
 		return (this.max_value-this.min_value);
-	}	
-	this.setValue = function (new_value, refresh_panel) {	
-		refresh_panel = typeof refresh_panel !== 'undefined' ? refresh_panel : true;	
+	}
+	this.setValue = function (new_value, refresh_panel) {
+		refresh_panel = typeof refresh_panel !== 'undefined' ? refresh_panel : true;
 		if(new_value==this.value) return;
 		if(new_value>this.max_value) new_value = this.max_value;
-		else if(new_value<this.min_value) new_value = this.min_value;		
+		else if(new_value<this.min_value) new_value = this.min_value;
 		if(g_files.FileExists(SettingsPath+this.file_prefix+new_value)) g_files.DeleteFile(SettingsPath+this.file_prefix+new_value);
-		if(!g_files.FileExists(SettingsPath+this.file_prefix+this.value)) g_files.CreateTextFile(SettingsPath+this.file_prefix+this.value, true).Close();	
+		if(!g_files.FileExists(SettingsPath+this.file_prefix+this.value)) g_files.CreateTextFile(SettingsPath+this.file_prefix+this.value, true).Close();
 		g_files.MoveFile(SettingsPath + this.file_prefix + this.value,SettingsPath + this.file_prefix + new_value);
 		g_avoid_on_metadb_changed = true;
 		this.value = new_value;
-		window.NotifyOthers("g_avoid_on_metadb_changed",true);			
-		window.NotifyOthers(this.name,this.value);	
+		window.NotifyOthers("g_avoid_on_metadb_changed",true);
+		window.NotifyOthers(this.name,this.value);
 		if(refresh_panel!==false) RefreshPSS();
 	}
 	this.setDefault = function () {
 		this.setValue(this.default_value);
-	}	
+	}
 	this.toggleValue = function (refresh_panel) {
 		if(this.value==0) this.setValue(1, refresh_panel);
 		else this.setValue(0, refresh_panel);
 	}
 	this.isEqual = function (test_value) {
 		return (this.value==test_value);
-	}		
+	}
 	this.isActive = function () {
 		return (this.value>0);
-	}	
+	}
 	this.isMaximumValue = function () {
 		return (this.value==this.max_value);
 	}
 	this.isMinimumValue = function () {
 		return (this.value==this.min_value);
-	}	
+	}
 	this.decrement = function (decrement_value) {
-		this.setValue(parseInt(this.value)-decrement_value);		
-	}	
+		this.setValue(parseInt(this.value)-decrement_value);
+	}
 	this.increment = function (increment_value) {
-		this.setValue(parseInt(this.value)+increment_value);		
-	}	
+		this.setValue(parseInt(this.value)+increment_value);
+	}
 	this.userInputValue = function (msg,title) {
 		try {
 			new_value = utils.InputBox(window.ID, msg, title, this.value, true);
 			if (!(new_value == "" || typeof new_value == 'undefined')) {
 				this.setValue(new_value);
-			}			   
+			}
 		} catch(e) {
-		}				
-	}		
+		}
+	}
 	this.getFileValue();
 }
 
@@ -359,7 +359,7 @@ function set_mainpanel_width(width) {
 }
 
 function set_mainpanel_height(height) {
-	
+
 		g_uihacks.setMinHeight(height)
 		g_uihacks.setMaxHeight(height)
 		g_uihacks.enableMaxSize()
@@ -369,7 +369,7 @@ function set_mainpanel_height(height) {
 }
 
 
-// create a menu for selecting output-devices 
+// create a menu for selecting output-devices
 // (adapted from WSHcontrol.js within the eole-theme)
 function _output_devices(x, y){
    var menu = window.CreatePopupMenu();
@@ -382,19 +382,36 @@ function _output_devices(x, y){
       menu.AppendMenuItem(MF_STRING, i + 1, arr[i].name);
       if (arr[i].active) active = i;
    }
-   
+
    if (active > -1) menu.CheckMenuRadioItem(1, arr.length + 1, active + 1);
-   
+
    var idx = menu.TrackPopupMenu(x, y, 0x0020);
-   
-   if (idx > 0) fb.SetOutputDevice(arr[idx - 1].output_id, arr[idx - 1].device_id); 
+
+   if (idx > 0) fb.SetOutputDevice(arr[idx - 1].output_id, arr[idx - 1].device_id);
+}
+
+
+
+function _get_active_output_device(){
+   var str = fb.GetOutputDevices();
+   var arr = JSON.parse(str);
+   var active = -1;
+   for (var i = 0; i < arr.length; i++) {
+      if (arr[i].active) active = i;
+   }
+   if (active > -1) {
+     return arr[active].name
+   } else{
+     return "Output Device"
+   }
 }
 
 
 
 
 
-// a function to refresh panel stack splitter 
+
+// a function to refresh panel stack splitter
 function RefreshPSS() {
 	if (fb.IsPaused) {
 		fb.Play();
@@ -403,7 +420,7 @@ function RefreshPSS() {
 	else if (fb.IsPlaying) {
 		fb.Pause();
 		fb.Play();
-	}	
+	}
 	else {
 		fb.Play();fb.Stop();
 	}
